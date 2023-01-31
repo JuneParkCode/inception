@@ -1,0 +1,54 @@
+version: "2.1"
+services:
+  mariadb:
+    container_name: "mariadb"
+    build: ./requirements/mariadb
+    restart: on-failure
+    networks:
+      - wordpress-mariadb
+    volumes:
+      - mariadb-volume:/var/lib/mysql
+    env_file:
+      - .env
+    environment:
+      TZ: Asia/Seoul
+
+  wordpress:
+    container_name: "wordpress"
+    build: ./requirements/wordpress
+    restart: on-failure
+    depends_on:
+      - mariadb
+    networks:
+      - nginx-wordpress
+      - wordpress-mariadb
+    volumes:
+      - wordpress-volume:/var/www/html/wp-content
+    env_file:
+      - .env
+
+  nginx:
+    container_name: "nginx"
+    build: ./requirements/nginx
+    depends_on:
+      - mariadb
+      - wordpress
+    ports:
+      - 443:443
+    restart: on-failure
+    networks:
+      - nginx-wordpress
+    volumes:
+      - wordpress-volume:/var/www/html/wp-content
+    env_file:
+      - .env
+      
+networks:
+  nginx-wordpress:
+  wordpress-mariadb:
+
+volumes:
+  mariadb-volume:
+    source: ./volume/mariadb
+  wordpress-volume:
+    source: ./volume/wordpress
