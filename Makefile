@@ -6,6 +6,7 @@ DOCKER_COMPOSE_FILE = $(SRC_DIR)/docker_compose.yml
 
 DOCKER_COMPOSE = sudo docker-compose -f $(DOCKER_COMPOSE_FILE)
 
+all : up
 # install docker
 install:
 	@echo "INSTALL DOCKER"
@@ -18,7 +19,6 @@ install:
 
 
 # setup
-all : up
 
 $(NAME) : all
 
