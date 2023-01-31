@@ -2,7 +2,7 @@ version: "2.1"
 services:
   mariadb:
     container_name: "mariadb"
-    build: ./src/requirements/mariadb/.
+    build: ./srcs/requirements/mariadb/.
     restart: on-failure
     networks:
       - wordpress-mariadb
@@ -15,7 +15,7 @@ services:
 
   wordpress:
     container_name: "wordpress"
-    build: ./src/requirements/wordpress/.
+    build: ./srcs/requirements/wordpress/.
     restart: on-failure
     depends_on:
       - mariadb
@@ -29,7 +29,7 @@ services:
 
   nginx:
     container_name: "nginx"
-    build: ./src/requirements/nginx/.
+    build: ./srcs/requirements/nginx/.
     depends_on:
       - mariadb
       - wordpress
