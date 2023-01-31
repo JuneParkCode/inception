@@ -2,7 +2,7 @@ NAME = inception
 
 SRC_DIR = ./srcs
 
-DOCKER_COMPOSE_FILE = $(SRC_DIR)/docker_compose.yml
+DOCKER_COMPOSE_FILE = $(SRC_DIR)/docker-compose.yml
 
 DOCKER_COMPOSE = sudo docker-compose -f $(DOCKER_COMPOSE_FILE)
 
