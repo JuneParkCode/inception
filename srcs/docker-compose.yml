@@ -49,6 +49,4 @@ networks:
 
 volumes:
   mariadb-volume:
-    source: ./volume/mariadb
   wordpress-volume:
-    source: ./volume/wordpress
