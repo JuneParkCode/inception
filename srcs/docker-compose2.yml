@@ -1,0 +1,24 @@
+services:
+  mariadb:
+    container_name: "mariadb"
+    build:
+      context: ./requirements/mariadb
+      dockerfile: Dockerfile
+    #command: --init-file /data/application/init.sql
+    restart: on-failure
+    networks:
+      - wordpress-mariadb
+    volumes:
+      - mariadb-volume:/var/lib/mysql
+      #- ./requirements/mariadb/conf/init.sql:/data/application/init.sql
+      #- ./requirements/mariadb/conf:/etc/mysql/conf.d
+    env_file:
+      - .env
+    environment:
+      TZ: Asia/Seoul
+
+networks:
+  wordpress-mariadb:
+
+volumes:
+  mariadb-volume:
