@@ -4,18 +4,13 @@ services:
     build:
       context: ./requirements/mariadb
       dockerfile: Dockerfile
-    command: --init-file /data/application/init.sql
     restart: on-failure
     networks:
       - wordpress-mariadb
     volumes:
       - mariadb-volume:/var/lib/mysql
-      - ./requirements/mariadb/conf/init.sql:/data/application/init.sql
-      - ./requirements/mariadb/conf:/etc/mysql/conf.d
     env_file:
       - .env
-    environment:
-      TZ: Asia/Seoul
 
   wordpress:
     container_name: "wordpress"
@@ -36,13 +31,14 @@ services:
   nginx:
     container_name: "nginx"
     build:
-      context: ./requirements/wordpress
+      context: ./requirements/nginx
       dockerfile: Dockerfile
     depends_on:
       - mariadb
       - wordpress
     ports:
       - 443:443
+      - 80:80 # subject does not required http but I will redirect http to https
     restart: on-failure
     networks:
       - nginx-wordpress
@@ -53,7 +49,11 @@ services:
       
 networks:
   nginx-wordpress:
+    driver: bridge
+    name: nginx-wordpress
   wordpress-mariadb:
+    driver: bridge
+    name: wordpress-wordpress
 
 volumes:
   mariadb-volume:
